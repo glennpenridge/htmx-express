@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTMX Test</title>
+    <link rel="stylesheet" href="/style/style.css" />
+    <script src="/js/htmx.1.9.2.min.js"></script>
+    <script>
+      window.settings = {
+        timerEnabled: true,
+      };
+    </script>
+  </head>
+  <body>
+    <main class="grid grid-cols-3">
+      <h1 class="py-4 text-6xl col-span-full font-bold text-center">
+        HTMX Test
+      </h1>
+
+      <div class="p-6 m-6 border border-x-stone-500 border-opacity-20">
+        <h3 class="text-2xl font-bold mb-2">Replace Test</h3>
+        <div>
+          <p class="my-2" id="replace-test">Hello there!</p>
+          <button
+            class="px-3 py-2 bg-neutral-100 rounded-md border border-t-stone-300 border-l-stone-300 border-stone-500"
+            hx-get="/htmx/replace-test"
+            hx-trigger="click"
+            hx-target="#replace-test"
+            hx-swap="outerHTML"
+          >
+            Replace hello there!
+          </button>
+        </div>
+      </div>
+
+      <div class="p-6 m-6 border border-x-stone-500 border-opacity-20">
+        <h3 class="text-2xl font-bold mb-2">Post Test</h3>
+        <div>
+          <form
+            hx-post="/htmx/post-test"
+            hx-target="#greeting"
+            hx-swap="innerHTML"
+          >
+            <p id="greeting">What's your name?</p>
+            <input
+              class="my-2 block w-full px-2 py-1 border border-t-stone-400 border-l-stone-400 border-stone-500 border-opacity-50 bg-gradient-to-b from-slate-100 to-slate-50 rounded-md"
+              type="text"
+              placeholder="Leeroy Jenkins"
+              name="username"
+            />
+            <button
+              class="px-3 py-2 bg-neutral-100 rounded-md border border-t-stone-300 border-l-stone-300 border-stone-500"
+              type="submit"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="p-6 m-6 border border-x-stone-500 border-opacity-20">
+        <h3 class="text-2xl font-bold mb-2">Timer Test</h3>
+        <div>
+          <p
+            hx-get="/htmx/timer-test"
+            hx-target="this"
+            hx-swap="innerHTML"
+            hx-trigger="load, every 1s [window.settings.timerEnabled]"
+          ></p>
+          <p><sup>This one gets slow/laggy.</sup></p>
+          <label for="timerEnabled">
+            <input
+              id="timerEnabled"
+              name="timerEnabled"
+              type="checkbox"
+              checked="true"
+              onchange="window.settings.timerEnabled = !window.settings.timerEnabled"
+            />
+            Timer enabled?
+          </label>
+        </div>
+      </div>
+
+      <div class="p-6 m-6 border border-x-stone-500 border-opacity-20">
+        <h3 class="text-2xl font-bold mb-2">Cascading Select Test</h3>
+        <div>
+          <label for="drinks">
+            Select a drink:<br />
+            <select
+              class="my-2 block w-full px-2 py-1 border border-t-stone-400 border-l-stone-400 border-stone-500 border-opacity-50 bg-gradient-to-b from-slate-100 to-slate-50 rounded-md"
+              name="drinks"
+              hx-get="/htmx/cascading-selects"
+              hx-target="#drink-types"
+              hx-trigger="load, change"
+            >
+              <option value="tea">Tea</option>
+              <option value="coffee">Coffee</option>
+              <option value="soft-drinks">Soft Drinks</option>
+            </select>
+          </label>
+        </div>
+        <hr class="my-4" />
+        <div>
+          <label for="drink-types">
+            Select the type of drink:<br />
+            <select
+              class="my-2 block w-full px-2 py-1 border border-t-stone-400 border-l-stone-400 border-stone-500 border-opacity-50 bg-gradient-to-b from-slate-100 to-slate-50 rounded-md"
+              id="drink-types"
+              name="drink-types"
+            ></select>
+          </label>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
